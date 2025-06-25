@@ -37,9 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account.apps.AccountConfig',
+    'django.contrib.sites',
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    #this was in conflict with account app
+    #'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'post.apps.PostConfig',
+    'account.apps.AccountConfig',
 ]
 
 AUTH_USER_MODEL ='account.CustomUser'
@@ -70,6 +78,8 @@ TEMPLATES = [
         },
     },
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -131,5 +141,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' :[
         'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATE_CLASSES' :[
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
