@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/v2/', include('post.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/v2/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api-jwt/', include('account.urls'))
 ]

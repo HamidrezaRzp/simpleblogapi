@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'account.apps.AccountConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
@@ -47,7 +49,6 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'post.apps.PostConfig',
-    'account.apps.AccountConfig',
 ]
 
 AUTH_USER_MODEL ='account.CustomUser'
@@ -143,7 +144,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATE_CLASSES' :[
+        'account.authentication.CustomJWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+#jwt key's and utils
+JWT_SECRET_KEY = 'g9o23bASD8723jhd!3b1v&asf9823asJHf98hq3vB'
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_DELTA_SECONDS = 3600
