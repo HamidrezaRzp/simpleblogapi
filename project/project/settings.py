@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dkpl#o7+1u+5(k&-j1$6)_5we9fs_fm+0-@)+to$%epc#ynb2*'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default = False)
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'post.apps.PostConfig',
     'account.apps.AccountConfig',
+    'drf_spectacular',
 ]
 
 AUTH_USER_MODEL ='account.CustomUser'
@@ -146,4 +151,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema',
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "Title" : "Blog Api",
+    "Description" : "A simple Blog Api",
+    "Version" : '2.0.0',
 }
